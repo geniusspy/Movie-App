@@ -1,3 +1,5 @@
+import 'package:movie_app/data/vos/popularity_vos/popularity_vos.dart';
+
 import '../../network/data_agent/movie_data_agent.dart';
 import '../../network/data_agent/movie_data_agent_impl.dart';
 import '../../network/response/movie_detail_response/movie_detail_response.dart';
@@ -19,4 +21,7 @@ class MovieModelImpl extends MovieModel {
 
   @override
   Future<List<MovieVO>?> getMoviesList() => _movieDataAgent.getMoviesList();
+
+  @override
+  Future<List<PopularityVO>?> getPopularMovies() => _movieDataAgent.getPopularMovies();
 }

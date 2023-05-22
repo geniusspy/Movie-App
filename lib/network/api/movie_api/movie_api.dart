@@ -4,6 +4,7 @@ import 'package:retrofit/http.dart';
 import '../../../constant/api_constant.dart';
 import '../../response/movie_detail_response/movie_detail_response.dart';
 import '../../response/movie_response/movie_home_page_response.dart';
+import '../../response/popular_movie_resonse/popular_movies_response.dart';
 
 part 'movie_api.g.dart';
 
@@ -20,4 +21,9 @@ abstract class MovieAPI {
   Future<MovieDetailsResponse> getMovieDetailsResponse(
       @Query(kQueryParamsApiKey) String apiKey,
       @Path(kPathParameterMovieID) int movieID);
+
+  @GET(kGetPopularMoviesEndPoint)
+  Future<PopularMovieResponse> getPopularMoviesResponse(
+      @Query(kQueryParamsApiKey) String apiKey,
+      );
 }

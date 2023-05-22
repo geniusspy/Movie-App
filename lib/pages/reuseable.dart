@@ -15,22 +15,55 @@ class NetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<MovieVO>?>(
-      future: _movieModel.getMoviesList(),
-        builder: (context,snapShot) {
-        if(snapShot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
+        future: _movieModel.getMoviesList(),
+        builder: (context, snapShot) {
+          if (snapShot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapShot.hasError) {
+            return const Center(
+              child: Text("Error Fetching"),
+            );
+          }
+          final listMovie = snapShot.data;
+          return  CarouselSlider(
+            options: CarouselOptions(
+              height: 350,
+              viewportFraction: 0.7,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 500),
+              autoPlayCurve: Curves.linear,
+              enlargeCenterPage: true,
+              enlargeFactor: 0.2,
+              scrollDirection: Axis.horizontal,
+            ),
+            items: listMovie?.toList().map((i) {
+              return FutureBuilder<List<MovieVO>?>(
+                  future: _movieModel.getMoviesList(),
+                  builder: (context,snapShot) {
+                    if(snapShot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if(snapShot.hasError){
+                      return const Center(
+                        child: Text('Error Fetching'),
+                      );
+                    }
+                    final movieModel = snapShot.data;
+                    return Image.network('https://image.tmdb.org/t/p/w500${i.posterPath}');
+                  }
+              );
+            }).toList(),
           );
-        }
-        if(snapShot.hasError){
-          return const Center(
-            child: Text('Error Fetching'),
-          );
-        }
-        final movieModel = snapShot.data;
-        return MovieView(movieData: movieModel);
-        }
-    );
+        });
   }
 }
 
@@ -53,7 +86,7 @@ class MovieView extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: CachedNetworkImage(
-                  imageUrl: "${movieData?.}",
+                  imageUrl: "",
                   fit: BoxFit.fill,
                   placeholder: (context, url) => Image.asset("https://image.tmdb.org/t/p/w500/${_movieModel}"
                     ,fit: BoxFit.fill,),
@@ -124,3 +157,23 @@ class CarousalImage extends StatelessWidget {
     );
   }
 }
+// Positioned.fill(
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// mainAxisAlignment: MainAxisAlignment.end,
+// children: [
+// Container(
+// padding: EdgeInsets.all(6),
+// child: Text('The Flash',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w500),),
+// ),
+// Row(
+// mainAxisAlignment: MainAxisAlignment.spaceAround,
+// children: [
+// Icon(Icons.star_border_outlined,color: Colors.amber,),
+// Text('4.5',style: TextStyle(color: Colors.grey),textAlign: TextAlign.left,),
+// Text('5000 Views',style: TextStyle(color: Colors.grey),),
+// ],
+// )
+// ],
+// )
+// )

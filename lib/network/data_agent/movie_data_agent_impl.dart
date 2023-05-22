@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movie_app/data/vos/popularity_vos/popularity_vos.dart';
 import '../../constant/api_constant.dart';
 import '../../data/vos/movie_vos/result_vos.dart';
 import '../api/movie_api/movie_api.dart';
@@ -18,12 +19,21 @@ class MovieDataAgentImpl extends MovieDataAgent {
 
   @override
   Future<MovieDetailsResponse?> getMovieDetails(int movieID) =>
-      _api.getMovieDetailsResponse(kApiKey, movieID);
+      _api.getMovieDetailsResponse(kApiKey2, movieID);
 
   @override
   Future<List<MovieVO>?> getMoviesList() => _api
-      .getNowPlayingMovieResponse(kApiKey)
+      .getNowPlayingMovieResponse(kApiKey2)
       .asStream()
       .map((event) => event.results)
       .first;
+
+  @override
+  Future<List<PopularityVO>?> getPopularMovies() => _api
+      .getPopularMoviesResponse(kApiKey2)
+      .asStream()
+      .map((event) => event.results)
+      .first;
+
+
 }

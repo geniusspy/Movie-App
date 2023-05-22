@@ -8,9 +8,10 @@ const kMovieBaseURL = 'https://api.themoviedb.org/3';
 const kSummaryEndPoint = '/summary';
 const kGetNowPlayingMoviesEndPoint = '/movie/now_playing';
 const kGetMovieDetailsEndPoint = '/movie/{$kPathParameterMovieID}';
+const kGetPopularMoviesEndPoint = '/movie/top_rated';
 
 ///API KEY
-const kApiKey = '57c041385166dcc2256aa0fa1932e9e4';
+const kApiKey2= '6ba57a8fa213613268b61de49d70fffe';
 
 ///Query Params
 const kQueryParamsApiKey = 'api_key';
